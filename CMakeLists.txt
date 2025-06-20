@@ -66,8 +66,7 @@ set(SOURCES
     src/ai/real_time_content_pipeline.cpp  # Week 16: Real-time content generation pipeline    src/ai/adaptive_quality_engine.cpp  # Week 16: Real-time quality optimization engine
     src/ai/production_streaming_manager.cpp  # Week 16: Enterprise streaming infrastructure    
     # Week 17 - Production Polish & Enterprise Features
-    # src/api/rest_api_server.cpp  # Week 17: REST API server for web integration - TEMPORARILY DISABLED
-    
+    # src/api/rest_api_server.cpp  # Week 17: REST API server for web integration - TEMPORARILY DISABLED    
     src/advanced_layers.cpp  # Re-enabled after fixing abstract class issues
 )
 
@@ -292,7 +291,8 @@ endif()
 # Try OpenCL as fallback (works with Intel, AMD, NVIDIA)
 if(NOT GPU_SUPPORT_FOUND)
     find_package(OpenCL QUIET)
-    if(OpenCL_FOUND)        target_compile_definitions(asekioml PUBLIC ASEKIOML_OPENCL_SUPPORT)
+    if(OpenCL_FOUND)
+        target_compile_definitions(asekioml PUBLIC ASEKIOML_OPENCL_SUPPORT)
         target_link_libraries(asekioml PUBLIC OpenCL::OpenCL)
         set(GPU_SUPPORT_FOUND TRUE)
         message(STATUS "OpenCL found - Cross-platform GPU acceleration available")

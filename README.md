@@ -66,17 +66,17 @@ make
 ### Modern API Usage (Recommended)
 
 ```cpp
-#include "clmodel.hpp"
+#include "asekioml.hpp"
 
 int main() {
     // Print framework capabilities
-    clmodel::print_info();
+    asekioml::print_info();
     
     // Create dataset
-    auto dataset = clmodel::Dataset::make_classification(1000, 20, 3);
+    auto dataset = asekioml::Dataset::make_classification(1000, 20, 3);
     
     // Build model with fluent API
-    auto model = clmodel::api::ModelBuilder()
+    auto model = asekioml::api::ModelBuilder()
         .input(20)
         .dense(128, "relu")
         .dropout(0.3)
@@ -87,16 +87,16 @@ int main() {
         .build();
     
     // Advanced training with callbacks
-    clmodel::api::Trainer::TrainingConfig config;
+    asekioml::api::Trainer::TrainingConfig config;
     config.epochs = 100;
     config.batch_size = 32;
     config.validation_split = 0.2;
     
-    std::vector<std::unique_ptr<clmodel::api::Trainer::Callback>> callbacks;
-    callbacks.push_back(std::make_unique<clmodel::api::Trainer::EarlyStopping>(10));
-    callbacks.push_back(std::make_unique<clmodel::api::Trainer::ModelCheckpoint>("best_model.clm"));
+    std::vector<std::unique_ptr<asekioml::api::Trainer::Callback>> callbacks;
+    callbacks.push_back(std::make_unique<asekioml::api::Trainer::EarlyStopping>(10));
+    callbacks.push_back(std::make_unique<asekioml::api::Trainer::ModelCheckpoint>("best_model.clm"));
     
-    auto history = clmodel::api::Trainer::fit(*model, dataset, config, callbacks);
+    auto history = asekioml::api::Trainer::fit(*model, dataset, config, callbacks);
       return 0;
 }
 ```
@@ -104,8 +104,8 @@ int main() {
 ### GPU Acceleration Demo
 
 ```cpp
-#include "clmodel.hpp"
-using namespace clmodel::gpu;
+#include "asekioml.hpp"
+using namespace asekioml::gpu;
 
 int main() {
     // Detect available GPU devices
@@ -138,14 +138,14 @@ int main() {
 
 ```cpp
 // Create synthetic regression data
-auto dataset = clmodel::datasets::make_regression(500, 2, 0.1, 42);
+auto dataset = asekioml::datasets::make_regression(500, 2, 0.1, 42);
 dataset.normalize_features();
 
 // Split data
 auto [train_data, test_data] = dataset.train_test_split(0.2);
 
 // Build network manually
-clmodel::NeuralNetwork network;
+asekioml::NeuralNetwork network;
 network.add_dense_layer(2, 32, "relu");
 network.add_dropout_layer(32, 0.2);
 network.add_dense_layer(32, 16, "relu");
@@ -160,11 +160,11 @@ network.fit(train_data.features(), train_data.targets(), 150, 32, 0.2, true);
 
 ```cpp
 // Create synthetic classification data
-auto dataset = clmodel::datasets::make_classification(800, 4, 3, 0.1, 42);
+auto dataset = asekioml::datasets::make_classification(800, 4, 3, 0.1, 42);
 dataset.normalize_features();
 
 // Create network for 3-class classification
-auto network = clmodel::create_mlp(
+auto network = asekioml::create_mlp(
     {4, 64, 32, 3},
     {"relu", "relu", "softmax"},
     "cross_entropy",
@@ -176,7 +176,7 @@ auto network = clmodel::create_mlp(
 auto [train_data, test_data] = dataset.train_test_split(0.2);
 network->fit(train_data.features(), train_data.targets(), 100, 32, 0.2);
 
-clmodel::Matrix predictions = network->predict(test_data.features());
+asekioml::Matrix predictions = network->predict(test_data.features());
 double accuracy = network->calculate_accuracy(predictions, test_data.targets());
 ```
 
@@ -184,9 +184,9 @@ double accuracy = network->calculate_accuracy(predictions, test_data.targets());
 
 ```cpp
 // Classic XOR problem
-auto dataset = clmodel::datasets::make_xor(400, 0.05);
+auto dataset = asekioml::datasets::make_xor(400, 0.05);
 
-clmodel::NeuralNetwork network;
+asekioml::NeuralNetwork network;
 network.add_dense_layer(2, 8, "relu");
 network.add_dense_layer(8, 4, "relu");
 network.add_dense_layer(4, 1, "sigmoid");
@@ -202,17 +202,17 @@ The framework includes a comprehensive Matrix class:
 
 ```cpp
 // Create matrices
-clmodel::Matrix A = {{1, 2, 3}, {4, 5, 6}};
-clmodel::Matrix B = clmodel::Matrix::random(3, 2, -1.0, 1.0);
+asekioml::Matrix A = {{1, 2, 3}, {4, 5, 6}};
+asekioml::Matrix B = asekioml::Matrix::random(3, 2, -1.0, 1.0);
 
 // Operations
-clmodel::Matrix C = A * B;                    // Matrix multiplication
-clmodel::Matrix D = A + A;                    // Element-wise addition
-clmodel::Matrix E = A.transpose();            // Transpose
-clmodel::Matrix F = A.hadamard(A);           // Element-wise multiplication
+asekioml::Matrix C = A * B;                    // Matrix multiplication
+asekioml::Matrix D = A + A;                    // Element-wise addition
+asekioml::Matrix E = A.transpose();            // Transpose
+asekioml::Matrix F = A.hadamard(A);           // Element-wise multiplication
 
 // Apply functions
-clmodel::Matrix G = A.apply([](double x) { 
+asekioml::Matrix G = A.apply([](double x) { 
     return std::tanh(x); 
 });
 
@@ -225,17 +225,17 @@ double std_dev = A.std_dev();
 
 ```cpp
 // Load from CSV
-clmodel::Dataset dataset = clmodel::Dataset::load_csv("data.csv", true, ',', 1);
+asekioml::Dataset dataset = asekioml::Dataset::load_csv("data.csv", true, ',', 1);
 
 // Data preprocessing
 dataset.normalize_features();
 dataset.shuffle();
 
 // Create synthetic datasets
-auto regression_data = clmodel::datasets::make_regression(1000, 5, 0.1);
-auto classification_data = clmodel::datasets::make_classification(500, 3, 2);
-auto xor_data = clmodel::datasets::make_xor(200, 0.1);
-auto circle_data = clmodel::datasets::make_circles(300, 0.1, 0.7);
+auto regression_data = asekioml::datasets::make_regression(1000, 5, 0.1);
+auto classification_data = asekioml::datasets::make_classification(500, 3, 2);
+auto xor_data = asekioml::datasets::make_xor(200, 0.1);
+auto circle_data = asekioml::datasets::make_circles(300, 0.1, 0.7);
 
 // Save processed data
 dataset.save_csv("processed_data.csv");
@@ -253,8 +253,8 @@ Available activation functions:
 
 ```cpp
 // Create activation layers
-auto relu_layer = std::make_unique<clmodel::ActivationLayer>("relu", 64);
-auto sigmoid_layer = std::make_unique<clmodel::ActivationLayer>("sigmoid", 32);
+auto relu_layer = std::make_unique<asekioml::ActivationLayer>("relu", 64);
+auto sigmoid_layer = std::make_unique<asekioml::ActivationLayer>("sigmoid", 32);
 
 // Or use in network building
 network.add_dense_layer(64, 32, "relu");
@@ -273,22 +273,22 @@ network.add_activation_layer("softmax", 10);
 
 ### SGD (Stochastic Gradient Descent)
 ```cpp
-auto sgd = std::make_unique<clmodel::SGD>(0.01, 0.9);  // lr=0.01, momentum=0.9
+auto sgd = std::make_unique<asekioml::SGD>(0.01, 0.9);  // lr=0.01, momentum=0.9
 ```
 
 ### Adam (Adaptive Moment Estimation)
 ```cpp
-auto adam = std::make_unique<clmodel::Adam>(0.001, 0.9, 0.999, 1e-8);
+auto adam = std::make_unique<asekioml::Adam>(0.001, 0.9, 0.999, 1e-8);
 ```
 
 ### RMSprop
 ```cpp
-auto rmsprop = std::make_unique<clmodel::RMSprop>(0.001, 0.9, 1e-8);
+auto rmsprop = std::make_unique<asekioml::RMSprop>(0.001, 0.9, 1e-8);
 ```
 
 ### AdaGrad
 ```cpp
-auto adagrad = std::make_unique<clmodel::AdaGrad>(0.01, 1e-8);
+auto adagrad = std::make_unique<asekioml::AdaGrad>(0.01, 1e-8);
 ```
 
 ## Model Training and Evaluation
@@ -338,8 +338,8 @@ bool is_ready = network.is_compiled();
 for (int epoch = 0; epoch < num_epochs; ++epoch) {
     for (int batch = 0; batch < num_batches; ++batch) {
         // Get batch data
-        clmodel::Matrix X_batch = get_batch_features(batch);
-        clmodel::Matrix y_batch = get_batch_targets(batch);
+        asekioml::Matrix X_batch = get_batch_features(batch);
+        asekioml::Matrix y_batch = get_batch_targets(batch);
         
         // Single training step
         network.train_step(X_batch, y_batch);
@@ -356,7 +356,7 @@ network.add_dense_layer(64, 32, "relu");
 
 ### Weight Initialization
 ```cpp
-clmodel::DenseLayer layer(128, 64);
+asekioml::DenseLayer layer(128, 64);
 layer.initialize_xavier();  // Xavier/Glorot initialization
 // or
 layer.initialize_he();      // He initialization
