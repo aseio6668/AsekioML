@@ -4,7 +4,7 @@
 #include <cmath>
 #include <random>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // VideoTensorUtils Implementation
@@ -1173,4 +1173,4 @@ Tensor MotionEstimation::estimate_video_motion(const Tensor& video_tensor, Video
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

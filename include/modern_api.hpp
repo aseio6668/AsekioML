@@ -9,7 +9,7 @@
 #include <string>
 #include <random>
 
-namespace clmodel {
+namespace asekioml {
 namespace api {
 
 // Forward declarations
@@ -170,4 +170,4 @@ private:
 };
 
 } // namespace api
-} // namespace clmodel
+} // namespace asekioml

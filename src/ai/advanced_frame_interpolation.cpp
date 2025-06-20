@@ -6,7 +6,7 @@
 #include <iostream>
 #include <chrono>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Helper function to slice frame from video tensor at specific time index
@@ -1329,4 +1329,4 @@ AdvancedFrameProcessingPipeline::ProcessingResult AdvancedFrameProcessingPipelin
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

@@ -10,7 +10,7 @@
 #include <atomic>
 #include <memory>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 /**
@@ -261,4 +261,4 @@ public:
     } while(0)
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

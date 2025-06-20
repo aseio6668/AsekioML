@@ -10,7 +10,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ===== Audio Loading and Saving =====
@@ -592,4 +592,4 @@ Tensor AudioProcessor::add_reverb(const Tensor& audio, double room_size, double 
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

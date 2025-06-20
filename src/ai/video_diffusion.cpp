@@ -11,7 +11,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ===== VideoDiffusionModel Implementation =====
@@ -708,4 +708,4 @@ Tensor VideoMotionUtils::warp_frame(const Tensor& frame, const Tensor& prev_fram
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

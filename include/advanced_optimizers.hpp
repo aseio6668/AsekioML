@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <cmath>
 
-namespace clmodel {
+namespace asekioml {
 
 // AdamW optimizer (Adam with weight decay)
 class AdamW : public Optimizer {
@@ -477,4 +477,4 @@ public:
     }
 };
 
-} // namespace clmodel
+} // namespace asekioml

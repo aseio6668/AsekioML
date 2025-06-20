@@ -13,7 +13,7 @@
 #include <chrono>
 #include <queue>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Forward declarations
@@ -368,4 +368,4 @@ namespace FusionUtils {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

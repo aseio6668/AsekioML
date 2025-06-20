@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <regex>
 
-namespace clmodel {
+namespace asekioml {
 
 // Version information
 const std::string ModelSerializer::MODEL_VERSION = "1.0.0";
@@ -80,7 +80,7 @@ std::string ModelSerializer::get_model_info(const std::string& filepath) {
         
         std::string line;
         std::getline(json_file, line);
-        if (line.find("\"clmodel_version\"") != std::string::npos) {
+        if (line.find("\"ASEKIOML_version\"") != std::string::npos) {
             return line;  // Return first line which should contain metadata
         }
         return "{}";
@@ -132,7 +132,7 @@ bool ModelSerializer::verify_model_file(const std::string& filepath) {
         std::ifstream json_file(filepath);
         std::string line;
         std::getline(json_file, line);
-        return line.find("\"clmodel_version\"") != std::string::npos;
+        return line.find("\"ASEKIOML_version\"") != std::string::npos;
     }
 }
 
@@ -145,7 +145,7 @@ bool ModelSerializer::save_hybrid(const NeuralNetwork& network,
     // Create architecture JSON
     std::ostringstream json_stream;
     json_stream << "{\n";
-    json_stream << "  \"clmodel_version\": \"" << MODEL_VERSION << "\",\n";
+    json_stream << "  \"ASEKIOML_version\": \"" << MODEL_VERSION << "\",\n";
     json_stream << "  \"format\": \"hybrid\",\n";
     json_stream << "  \"compiled\": " << (network.is_compiled() ? "true" : "false") << ",\n";
     json_stream << "  \"num_layers\": " << network.num_layers() << ",\n";
@@ -510,7 +510,7 @@ bool ModelSerializer::save_json(const NeuralNetwork& network,
     }
     
     file << "{\n";
-    file << "  \"clmodel_version\": \"" << MODEL_VERSION << "\",\n";
+    file << "  \"ASEKIOML_version\": \"" << MODEL_VERSION << "\",\n";
     file << "  \"format\": \"json\",\n";
     file << "  \"compiled\": " << (network.is_compiled() ? "true" : "false") << ",\n";
     file << "  \"num_layers\": " << network.num_layers() << ",\n";
@@ -916,4 +916,4 @@ size_t ModelSerializer::find_matching_brace(const std::string& json, size_t star
     return (brace_count == 0) ? pos - 1 : std::string::npos;
 }
 
-} // namespace clmodel
+} // namespace asekioml

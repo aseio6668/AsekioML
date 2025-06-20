@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace memory {
 
 // Cache-aligned memory allocator
@@ -212,4 +212,4 @@ public:
 };
 
 } // namespace memory
-} // namespace clmodel
+} // namespace asekioml

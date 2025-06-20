@@ -14,7 +14,7 @@
 #include <iostream>
 #include <chrono>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Helper function to create a dummy frame tensor for now
@@ -449,4 +449,4 @@ AdvancedFrameProcessingPipeline::QualityResult AdvancedFrameProcessingPipeline::
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

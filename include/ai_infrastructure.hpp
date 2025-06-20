@@ -10,7 +10,7 @@
 #include <condition_variable>
 #include <queue>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 /**
@@ -289,4 +289,4 @@ public:
 };
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

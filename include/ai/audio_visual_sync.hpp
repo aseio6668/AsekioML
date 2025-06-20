@@ -9,7 +9,7 @@
 #include <functional>
 #include <chrono>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Forward declarations
@@ -343,4 +343,4 @@ private:
 };
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

@@ -8,7 +8,7 @@
 #include <iostream>
 #include <iomanip>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 AdaptiveQualityEngine::AdaptiveQualityEngine(const AdaptiveThresholds& thresholds) 
@@ -489,4 +489,4 @@ void AdaptiveQualityEngine::generateOptimizationSuggestions(const OptimizationCo
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

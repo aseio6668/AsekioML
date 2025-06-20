@@ -8,7 +8,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 /**
@@ -370,4 +370,4 @@ private:
 };
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

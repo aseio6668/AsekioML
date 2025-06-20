@@ -20,7 +20,7 @@
 #endif
 
 // Forward declarations for CLModel AI components
-namespace clmodel {
+namespace asekioml {
     class Tensor;
     class Matrix;
     
@@ -261,4 +261,4 @@ namespace clmodel {
         bool is_valid_json(const std::string& json);
     }
 
-} // namespace clmodel
+} // namespace asekioml

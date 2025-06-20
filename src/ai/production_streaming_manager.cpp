@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <iostream>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 ProductionStreamingManager::ProductionStreamingManager(const StreamingConfig& config)
@@ -766,4 +766,4 @@ void ProductionStreamingManager::logInfo(const std::string& info) const {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

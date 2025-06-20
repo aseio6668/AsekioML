@@ -4,7 +4,7 @@
 #include <sstream>
 #include <fstream>
 
-namespace clmodel {
+namespace asekioml {
 
 // DenseLayer Implementation
 DenseLayer::DenseLayer(size_t input_size, size_t output_size)
@@ -226,4 +226,4 @@ size_t ActivationLayer::get_weights_size() const {
 
 // DropoutLayer is now implemented in regularization.cpp
 
-} // namespace clmodel
+} // namespace asekioml

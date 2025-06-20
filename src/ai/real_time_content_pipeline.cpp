@@ -7,7 +7,7 @@
 #include <iomanip>
 #include <cmath>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 RealTimeContentPipeline::RealTimeContentPipeline(const PipelineConfig& config)
@@ -769,4 +769,4 @@ void RealTimeContentPipeline::optimizePipelineForQuality(const ContentRequest& r
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

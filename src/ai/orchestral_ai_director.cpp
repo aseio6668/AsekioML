@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Pimpl implementation for OrchestralAIDirector
@@ -511,4 +511,4 @@ void OrchestralAIDirector::handleTaskCompletion(const std::string& task_id, cons
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

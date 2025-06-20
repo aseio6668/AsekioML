@@ -8,7 +8,7 @@
 #include <numeric>
 #include <map>
 
-namespace clmodel {
+namespace asekioml {
 namespace production {
 
 // ModelRegistry implementation
@@ -651,4 +651,4 @@ double ModelMonitor::calculate_chi_square_statistic(const Matrix& reference, con
 }
 
 } // namespace production
-} // namespace clmodel
+} // namespace asekioml

@@ -6,7 +6,7 @@
 #include <numeric>
 #include <limits>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ============================================================================
@@ -1224,4 +1224,4 @@ VideoAudioTextFusionStrategy selectOptimalStrategy(const MultiModalContent& cont
 } // namespace FusionUtils
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

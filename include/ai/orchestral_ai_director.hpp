@@ -18,7 +18,7 @@
 #include <mutex>
 #include <condition_variable>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Forward declarations
@@ -344,4 +344,4 @@ private:
 };
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

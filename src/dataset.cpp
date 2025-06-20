@@ -11,7 +11,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 
 Dataset::Dataset(const Matrix& features, const Matrix& targets)
     : features_(features), targets_(targets) {
@@ -517,4 +517,4 @@ Dataset make_circles(size_t n_samples, double noise, double factor) {
 
 } // namespace datasets
 
-} // namespace clmodel
+} // namespace asekioml

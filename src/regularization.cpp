@@ -5,7 +5,7 @@
 #include <sstream>
 #include <fstream>
 
-namespace clmodel {
+namespace asekioml {
 
 // ==================== DropoutLayer Implementation ====================
 
@@ -429,4 +429,4 @@ size_t BatchNormLayer::get_weights_size() const {
     return gamma_.rows() * gamma_.cols() * 4; // gamma, beta, running_mean, running_var
 }
 
-} // namespace clmodel
+} // namespace asekioml

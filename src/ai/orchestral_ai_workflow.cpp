@@ -5,7 +5,7 @@
 #include <random>
 #include <sstream>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ============================================================================
@@ -884,4 +884,4 @@ void WorkflowManager::setupDefaultWorkflows() {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

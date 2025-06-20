@@ -24,7 +24,7 @@
 #include <regex>
 #include <stack>
 
-namespace clmodel {
+namespace asekioml {
 
 // Convenience aliases
 using HttpRequest = api::HttpRequest;
@@ -1036,4 +1036,4 @@ bool is_valid_json(const std::string& json) {
 
 } // namespace utils
 
-} // namespace clmodel
+} // namespace asekioml

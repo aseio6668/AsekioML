@@ -9,7 +9,7 @@
 #include <algorithm>
 #include <chrono>
 
-namespace clmodel {
+namespace asekioml {
 
 NeuralNetwork::NeuralNetwork() : compiled_(false) {}
 
@@ -555,7 +555,7 @@ bool NeuralNetwork::load(const std::string& filepath) {
 std::string NeuralNetwork::export_architecture() const {
     std::ostringstream ss;
     ss << "{\n";
-    ss << "  \"clmodel_version\": \"1.0.0\",\n";
+    ss << "  \"ASEKIOML_version\": \"1.0.0\",\n";
     ss << "  \"num_layers\": " << layers_.size() << ",\n";
     ss << "  \"layers\": [\n";
     
@@ -600,4 +600,4 @@ std::string NeuralNetwork::get_model_info() const {
     return ss.str();
 }
 
-} // namespace clmodel
+} // namespace asekioml

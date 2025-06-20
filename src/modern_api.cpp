@@ -6,7 +6,7 @@
 #include <numeric>
 #include <limits>
 
-namespace clmodel {
+namespace asekioml {
 namespace api {
 
 // ModelBuilder implementation
@@ -358,4 +358,4 @@ HyperparameterTuner::HyperparameterConfig HyperparameterTuner::sample_config(
 }
 
 } // namespace api
-} // namespace clmodel
+} // namespace asekioml

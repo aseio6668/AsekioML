@@ -8,7 +8,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ===== SimpleVideoDiffusionModel Implementation =====
@@ -305,4 +305,4 @@ double SimpleVideoMotionUtils::estimate_motion_strength(const Tensor& video_tens
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

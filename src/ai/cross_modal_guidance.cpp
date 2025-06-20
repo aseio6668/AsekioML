@@ -6,7 +6,7 @@
 #include <numeric>
 #include <limits>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ============================================================================
@@ -856,4 +856,4 @@ double computeGuidanceStability(const std::vector<GuidanceMetrics>& metrics_hist
 } // namespace CrossModalUtils
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

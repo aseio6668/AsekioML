@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-namespace clmodel {
+namespace asekioml {
 
 // MeanSquaredError Implementation
 double MeanSquaredError::compute_loss(const Matrix& predictions, const Matrix& targets) const {
@@ -225,4 +225,4 @@ std::unique_ptr<LossFunction> create_loss_function(const std::string& name) {
     }
 }
 
-} // namespace clmodel
+} // namespace asekioml

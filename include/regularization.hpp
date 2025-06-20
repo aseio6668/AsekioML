@@ -5,7 +5,7 @@
 #include <random>
 #include <memory>
 
-namespace clmodel {
+namespace asekioml {
 
 /**
  * @brief Dropout layer for regularization
@@ -183,4 +183,4 @@ public:
     size_t get_weights_size() const override;
 };
 
-} // namespace clmodel
+} // namespace asekioml

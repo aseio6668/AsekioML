@@ -10,7 +10,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ===== TextProcessor Implementation =====
@@ -524,4 +524,4 @@ Tensor TextToImagePipeline::generate_initial_noise() {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

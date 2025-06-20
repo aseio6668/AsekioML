@@ -3,7 +3,7 @@
 #include "matrix.hpp"
 #include <memory>
 
-namespace clmodel {
+namespace asekioml {
 
 // Abstract base class for loss functions
 class LossFunction {
@@ -68,4 +68,4 @@ public:
 // Factory function for creating loss functions
 std::unique_ptr<LossFunction> create_loss_function(const std::string& name);
 
-} // namespace clmodel
+} // namespace asekioml

@@ -5,7 +5,7 @@
 #include <chrono>
 #include <future>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 namespace content {
 
@@ -346,4 +346,4 @@ private:
 
 } // namespace content
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

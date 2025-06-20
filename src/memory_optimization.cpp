@@ -9,7 +9,7 @@
 #include <stdlib.h>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace memory {
 
 // Memory pool implementation
@@ -193,4 +193,4 @@ MemoryPool& MemoryPool::instance() {
 }
 
 } // namespace memory
-} // namespace clmodel
+} // namespace asekioml

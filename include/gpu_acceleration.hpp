@@ -7,27 +7,27 @@
 #include <vector>
 
 // Include headers based on available GPU support
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
-#ifdef CLMODEL_CUDNN_SUPPORT
+#ifdef ASEKIOML_CUDNN_SUPPORT
 #include <cudnn.h>
 #endif
 #endif
 
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
 #include <hip/hip_runtime.h>
-#ifdef CLMODEL_ROCBLAS_SUPPORT
+#ifdef ASEKIOML_ROCBLAS_SUPPORT
 #include <rocblas.h>
 #endif
 #endif
 
-#ifdef CLMODEL_OPENCL_SUPPORT
+#ifdef ASEKIOML_OPENCL_SUPPORT
 #define CL_HPP_TARGET_OPENCL_VERSION 200
 #include <CL/opencl.hpp>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace gpu {
 
 enum class DeviceType {
@@ -203,7 +203,7 @@ namespace gpu_ops {
                                          const Matrix& weights, DeviceType device = DeviceType::AUTO);
 }
 
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
 // CUDA-specific backend implementation
 class CUDABackend : public GPUBackend {
 private:
@@ -229,13 +229,13 @@ public:
 };
 #endif
 
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
 // ROCm/HIP backend for AMD GPUs
 class ROCmBackend : public GPUBackend {
 private:
     hipStream_t stream_;
     int device_id_;
-#ifdef CLMODEL_ROCBLAS_SUPPORT
+#ifdef ASEKIOML_ROCBLAS_SUPPORT
     rocblas_handle rocblas_handle_;
 #endif
     
@@ -257,7 +257,7 @@ public:
 };
 #endif
 
-#ifdef CLMODEL_OPENCL_SUPPORT
+#ifdef ASEKIOML_OPENCL_SUPPORT
 // OpenCL backend for cross-platform support
 class OpenCLBackend : public GPUBackend {
 private:
@@ -290,4 +290,4 @@ private:
 #endif
 
 } // namespace gpu
-} // namespace clmodel
+} // namespace asekioml

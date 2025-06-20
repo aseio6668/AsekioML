@@ -6,7 +6,7 @@
 #include <intrin.h>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace simd {
 
 // Simple SIMD-optimized matrix multiplication (basic implementation)
@@ -217,4 +217,4 @@ Matrix MatrixPool::PooledMatrix::to_matrix() const {
 }
 
 } // namespace simd
-} // namespace clmodel
+} // namespace asekioml

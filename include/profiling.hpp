@@ -11,7 +11,7 @@
 #include <algorithm>
 #include <limits>
 
-namespace clmodel {
+namespace asekioml {
 namespace profiling {
 
 // High-resolution timer for precise measurements
@@ -232,7 +232,7 @@ public:
 };
 
 // Convenience macro for profiling
-#define CLMODEL_PROFILE(name) clmodel::profiling::ProfileScope _prof_scope(name)
+#define ASEKIOML_PROFILE(name) asekioml::profiling::ProfileScope _prof_scope(name)
 
 } // namespace profiling
-} // namespace clmodel
+} // namespace asekioml

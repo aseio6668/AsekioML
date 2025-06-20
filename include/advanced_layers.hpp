@@ -2,168 +2,70 @@
 
 #include "layer.hpp"
 #include "matrix.hpp"
-#include "regularization.hpp"  // For DropoutLayer
 #include <memory>
-#include <vector>
-#include <string>  // For std::to_string
+#include <string>
 
 namespace asekioml {
 namespace advanced {
 
-// Batch Normalization Layer
+/**
+ * @brief Batch Normalization layer for normalizing activations
+ * 
+ * Applies batch normalization to improve training stability and speed.
+ * Normalizes inputs to have zero mean and unit variance.
+ */
 class BatchNormalizationLayer : public Layer {
 private:
-    Matrix gamma_;          // Scale parameter
-    Matrix beta_;           // Shift parameter
-    Matrix running_mean_;   // Running average of means
-    Matrix running_var_;    // Running average of variances
-    Matrix last_input_;
-    Matrix normalized_;
+    size_t size_;
     double momentum_;
     double epsilon_;
     bool training_;
-    size_t size_;
-
-public:
-    BatchNormalizationLayer(size_t size, double momentum = 0.99, double epsilon = 1e-5);
     
+    Matrix gamma_;        // Scale parameters
+    Matrix beta_;         // Shift parameters
+    Matrix running_mean_; // Running mean for inference
+    Matrix running_var_;  // Running variance for inference
+    Matrix last_input_;
+    Matrix normalized_;   // Cached normalized values for backward pass
+    
+public:
+    /**
+     * @brief Constructor for BatchNormalizationLayer
+     * @param size Number of features to normalize
+     * @param momentum Momentum for updating running statistics (default: 0.9)
+     * @param epsilon Small value for numerical stability (default: 1e-5)
+     */
+    BatchNormalizationLayer(size_t size, double momentum = 0.9, double epsilon = 1e-5);
+    
+    // Layer interface implementation
     Matrix forward(const Matrix& input) override;
     Matrix backward(const Matrix& gradient) override;
     void update_weights(double learning_rate) override;
     std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return size_; }
-    size_t output_size() const override { return size_; }
-    std::string type() const override { return "BatchNorm"; }
-    std::string serialize_to_json() const override { return "{\"type\":\"BatchNorm\",\"size\":" + std::to_string(size_) + "}"; }
     
+    size_t input_size() const override { return size_; }
+    size_t output_size() const override { return size_; }
+    std::string type() const override { return "BatchNormalization"; }
+    
+    // Set training mode
     void set_training(bool training) { training_ = training; }
+    bool is_training() const { return training_; }
+    
+    // Serialization methods
+    std::string serialize_to_json() const override { return "{}"; }
+    void serialize_weights(std::ofstream& file) const override {}
+    void deserialize_weights(std::ifstream& file) override {}
+    size_t get_weights_size() const override { return size_ * 4; } // gamma, beta, mean, var
 };
 
-// Layer Normalization
-class LayerNormalizationLayer : public Layer {
-private:
-    Matrix gamma_;
-    Matrix beta_;
-    Matrix last_input_;
-    double epsilon_;
-    size_t size_;
-
-public:
-    LayerNormalizationLayer(size_t size, double epsilon = 1e-5);
-    
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    void update_weights(double learning_rate) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return size_; }
-    size_t output_size() const override { return size_; }
-    std::string type() const override { return "LayerNorm"; }
-    std::string serialize_to_json() const override { return "{\"type\":\"LayerNorm\",\"size\":" + std::to_string(size_) + "}"; }
-};
-
-// Residual Connection Layer
-class ResidualLayer : public Layer {
-private:
-    std::vector<std::unique_ptr<Layer>> layers_;
-    Matrix residual_input_;
-    size_t size_;
-
-public:
-    ResidualLayer(size_t size);
-    
-    void add_layer(std::unique_ptr<Layer> layer);
-    
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    void update_weights(double learning_rate) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return size_; }
-    size_t output_size() const override { return size_; }
-    std::string type() const override { return "Residual"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Residual\",\"size\":" + std::to_string(size_) + "}"; 
-    }
-};
-
-// Attention Mechanism (Self-Attention)
-class AttentionLayer : public Layer {
-private:
-    Matrix W_query_;
-    Matrix W_key_;
-    Matrix W_value_;
-    Matrix W_output_;
-    
-    Matrix last_queries_;
-    Matrix last_keys_;
-    Matrix last_values_;
-    Matrix attention_weights_;
-    
-    size_t d_model_;
-    size_t d_k_;
-    size_t num_heads_;
-
-public:
-    AttentionLayer(size_t d_model, size_t num_heads = 8);
-    
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    void update_weights(double learning_rate) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return d_model_; }
-    size_t output_size() const override { return d_model_; }
-    std::string type() const override { return "Attention"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Attention\",\"d_model\":" + std::to_string(d_model_) + 
-               ",\"num_heads\":" + std::to_string(num_heads_) + "}"; 
-    }
-
-private:
-    Matrix scaled_dot_product_attention(const Matrix& Q, const Matrix& K, const Matrix& V);
-    Matrix multi_head_attention(const Matrix& input);
-};
-
-// Convolutional Layer (1D for sequence data)
-class Conv1DLayer : public Layer {
-private:
-    Matrix kernels_;        // Shape: (num_filters, kernel_size, input_channels)
-    Matrix biases_;         // Shape: (num_filters,)
-    Matrix last_input_;
-    
-    size_t input_channels_;
-    size_t output_channels_;
-    size_t kernel_size_;
-    size_t stride_;
-    size_t padding_;
-
-public:
-    Conv1DLayer(size_t input_channels, size_t output_channels, 
-               size_t kernel_size, size_t stride = 1, size_t padding = 0);
-    
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    void update_weights(double learning_rate) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return input_channels_; }
-    size_t output_size() const override { return output_channels_; }
-    std::string type() const override { return "Conv1D"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Conv1D\",\"input_channels\":" + std::to_string(input_channels_) + 
-               ",\"output_channels\":" + std::to_string(output_channels_) + 
-               ",\"kernel_size\":" + std::to_string(kernel_size_) + "}"; 
-    }
-
-private:
-    Matrix im2col(const Matrix& input) const;
-    Matrix col2im(const Matrix& cols, size_t input_length) const;
-};
-
-// 2D Convolutional Layer (for images and 2D data)
+/**
+ * @brief 2D Convolutional layer (alternative implementation)
+ * 
+ * Note: This is a different implementation from the one in cnn_layers.hpp
+ * This version uses a different constructor signature and internal structure.
+ */
 class Conv2DLayer : public Layer {
 private:
-    Matrix kernels_;        // Shape: (num_filters, kernel_height * kernel_width * input_channels)
-    Matrix biases_;         // Shape: (num_filters,)
-    Matrix last_input_;
-    
     size_t input_height_;
     size_t input_width_;
     size_t input_channels_;
@@ -176,191 +78,163 @@ private:
     size_t padding_w_;
     size_t output_height_;
     size_t output_width_;
-
-public:
-    Conv2DLayer(size_t input_height, size_t input_width, size_t input_channels,
-               size_t num_filters, size_t kernel_height, size_t kernel_width,
-               size_t stride_h = 1, size_t stride_w = 1, 
-               size_t padding_h = 0, size_t padding_w = 0);
     
+    Matrix kernels_;     // Filter weights
+    Matrix biases_;      // Filter biases
+    Matrix last_input_;  // Cached input for backward pass
+    
+public:
+    /**
+     * @brief Constructor for Conv2DLayer
+     * @param input_height Height of input feature maps
+     * @param input_width Width of input feature maps
+     * @param input_channels Number of input channels
+     * @param num_filters Number of output filters/channels
+     * @param kernel_height Height of convolution kernels
+     * @param kernel_width Width of convolution kernels
+     * @param stride_h Vertical stride (default: 1)
+     * @param stride_w Horizontal stride (default: 1)
+     * @param padding_h Vertical padding (default: 0)
+     * @param padding_w Horizontal padding (default: 0)
+     */
+    Conv2DLayer(size_t input_height, size_t input_width, size_t input_channels,
+                size_t num_filters, size_t kernel_height, size_t kernel_width,
+                size_t stride_h = 1, size_t stride_w = 1, 
+                size_t padding_h = 0, size_t padding_w = 0);
+    
+    // Layer interface implementation
     Matrix forward(const Matrix& input) override;
     Matrix backward(const Matrix& gradient) override;
     void update_weights(double learning_rate) override;
     std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override;
+    
+    size_t input_size() const override;
     size_t output_size() const override;
     std::string type() const override { return "Conv2D"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Conv2D\",\"filters\":" + std::to_string(num_filters_) + 
-               ",\"kernel\":[" + std::to_string(kernel_height_) + "," + std::to_string(kernel_width_) + "]}"; 
-    }
     
-    // Getters for layer configuration
+    // Getters
     size_t get_output_height() const { return output_height_; }
     size_t get_output_width() const { return output_width_; }
     size_t get_num_filters() const { return num_filters_; }
+    
+    // Serialization methods
+    std::string serialize_to_json() const override { return "{}"; }
+    void serialize_weights(std::ofstream& file) const override {}
+    void deserialize_weights(std::ifstream& file) override {}
+    size_t get_weights_size() const override { 
+        return kernels_.rows() * kernels_.cols() + biases_.rows() * biases_.cols(); 
+    }
 };
 
-// LSTM Layer
+/**
+ * @brief L1/L2 Regularization layer
+ * 
+ * Applies L1 (Lasso) and/or L2 (Ridge) regularization to prevent overfitting.
+ * This layer doesn't change the forward pass but adds regularization terms 
+ * to the gradients during backward pass.
+ */
+class RegularizationLayer : public Layer {
+private:
+    size_t size_;
+    double l1_lambda_;    // L1 regularization strength
+    double l2_lambda_;    // L2 regularization strength
+    Matrix last_input_;   // Cached input for regularization computation
+    
+public:
+    /**
+     * @brief Constructor for RegularizationLayer
+     * @param size Size of the input/output
+     * @param l1_lambda L1 regularization coefficient (default: 0.0)
+     * @param l2_lambda L2 regularization coefficient (default: 0.0)
+     */
+    RegularizationLayer(size_t size, double l1_lambda = 0.0, double l2_lambda = 0.0);
+    
+    // Layer interface implementation
+    Matrix forward(const Matrix& input) override;
+    Matrix backward(const Matrix& gradient) override;
+    void update_weights(double learning_rate) override {}  // No weights to update
+    std::unique_ptr<Layer> clone() const override;
+    
+    size_t input_size() const override { return size_; }
+    size_t output_size() const override { return size_; }
+    std::string type() const override;
+    
+    // Regularization parameter setters/getters
+    void set_l1_lambda(double l1_lambda) { l1_lambda_ = l1_lambda; }
+    void set_l2_lambda(double l2_lambda) { l2_lambda_ = l2_lambda; }
+    double get_l1_lambda() const { return l1_lambda_; }
+    double get_l2_lambda() const { return l2_lambda_; }
+    
+    // Serialization methods
+    std::string serialize_to_json() const override { return "{}"; }
+    void serialize_weights(std::ofstream& file) const override {}
+    void deserialize_weights(std::ifstream& file) override {}
+    size_t get_weights_size() const override { return 0; } // No weights
+};
+
+/**
+ * @brief Long Short-Term Memory (LSTM) layer
+ * 
+ * Implements LSTM recurrent neural network layer for sequence processing.
+ * Includes forget gate, input gate, candidate values, and output gate.
+ */
 class LSTMLayer : public Layer {
 private:
-    // Weight matrices for forget, input, candidate, and output gates
-    Matrix W_f_, U_f_, b_f_;  // Forget gate
-    Matrix W_i_, U_i_, b_i_;  // Input gate
-    Matrix W_c_, U_c_, b_c_;  // Candidate
-    Matrix W_o_, U_o_, b_o_;  // Output gate
-    
-    // State variables
-    Matrix cell_state_;
-    Matrix hidden_state_;
-    
-    // For backpropagation
-    std::vector<Matrix> hidden_states_;
-    std::vector<Matrix> cell_states_;
-    std::vector<Matrix> forget_gates_;
-    std::vector<Matrix> input_gates_;
-    std::vector<Matrix> candidate_values_;
-    std::vector<Matrix> output_gates_;
-    
     size_t input_size_;
     size_t hidden_size_;
     size_t sequence_length_;
-
-public:
-    LSTMLayer(size_t input_size, size_t hidden_size);
     
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    void update_weights(double learning_rate) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return input_size_; }
-    size_t output_size() const override { return hidden_size_; }
-    std::string type() const override { return "LSTM"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"LSTM\",\"input_size\":" + std::to_string(input_size_) + 
-               ",\"hidden_size\":" + std::to_string(hidden_size_) + "}"; 
-    }
+    // LSTM gate weight matrices
+    Matrix W_f_, U_f_, b_f_;  // Forget gate
+    Matrix W_i_, U_i_, b_i_;  // Input gate
+    Matrix W_c_, U_c_, b_c_;  // Candidate values
+    Matrix W_o_, U_o_, b_o_;  // Output gate
     
-    void reset_state();
-
-private:
+    // LSTM states
+    Matrix cell_state_;      // Cell state (C_t)
+    Matrix hidden_state_;    // Hidden state (h_t)
+    Matrix last_input_;      // Cached input for backward pass
+    
+    // Helper methods for gate computations
     Matrix sigmoid_gate(const Matrix& x, const Matrix& h, 
                        const Matrix& W, const Matrix& U, const Matrix& b);
     Matrix tanh_gate(const Matrix& x, const Matrix& h,
                     const Matrix& W, const Matrix& U, const Matrix& b);
-};
-
-// Transformer Block
-class TransformerBlock : public Layer {
-private:
-    std::unique_ptr<AttentionLayer> attention_;
-    std::unique_ptr<LayerNormalizationLayer> norm1_;
-    std::unique_ptr<DenseLayer> feed_forward1_;
-    std::unique_ptr<DenseLayer> feed_forward2_;
-    std::unique_ptr<LayerNormalizationLayer> norm2_;
-    std::unique_ptr<DropoutLayer> dropout1_;
-    std::unique_ptr<DropoutLayer> dropout2_;
     
-    size_t d_model_;
-    size_t d_ff_;
-
 public:
-    TransformerBlock(size_t d_model, size_t d_ff, size_t num_heads = 8, double dropout_rate = 0.1);
+    /**
+     * @brief Constructor for LSTMLayer
+     * @param input_size Size of input features
+     * @param hidden_size Size of hidden state
+     */
+    LSTMLayer(size_t input_size, size_t hidden_size);
     
+    // Layer interface implementation
     Matrix forward(const Matrix& input) override;
     Matrix backward(const Matrix& gradient) override;
     void update_weights(double learning_rate) override;
     std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return d_model_; }
-    size_t output_size() const override { return d_model_; }
-    std::string type() const override { return "Transformer"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Transformer\",\"d_model\":" + std::to_string(d_model_) + 
-               ",\"d_ff\":" + std::to_string(d_ff_) + "}"; 
+    
+    size_t input_size() const override { return input_size_; }
+    size_t output_size() const override { return hidden_size_; }
+    std::string type() const override { return "LSTM"; }
+    
+    // LSTM-specific methods
+    void reset_state();
+    void set_sequence_length(size_t length) { sequence_length_ = length; }
+    
+    // State access
+    const Matrix& get_cell_state() const { return cell_state_; }
+    const Matrix& get_hidden_state() const { return hidden_state_; }
+    
+    // Serialization methods
+    std::string serialize_to_json() const override { return "{}"; }
+    void serialize_weights(std::ofstream& file) const override {}
+    void deserialize_weights(std::ifstream& file) override {}
+    size_t get_weights_size() const override { 
+        return (W_f_.rows() * W_f_.cols() + U_f_.rows() * U_f_.cols() + b_f_.rows()) * 4; 
     }
-};
-
-// Embedding Layer
-class EmbeddingLayer : public Layer {
-private:
-    Matrix embeddings_;     // Shape: (vocab_size, embedding_dim)
-    Matrix last_input_indices_;
-    size_t vocab_size_;
-    size_t embedding_dim_;
-
-public:
-    EmbeddingLayer(size_t vocab_size, size_t embedding_dim);
-    
-    Matrix forward(const Matrix& input) override;  // Input should be indices
-    Matrix backward(const Matrix& gradient) override;
-    void update_weights(double learning_rate) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return vocab_size_; }
-    size_t output_size() const override { return embedding_dim_; }
-    std::string type() const override { return "Embedding"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Embedding\",\"vocab_size\":" + std::to_string(vocab_size_) + 
-               ",\"embedding_dim\":" + std::to_string(embedding_dim_) + "}"; 
-    }
-    
-    // Utility functions
-    Matrix get_embeddings() const { return embeddings_; }
-    void load_pretrained_embeddings(const Matrix& pretrained);
-};
-
-// Positional Encoding (for Transformers)
-class PositionalEncodingLayer : public Layer {
-private:
-    Matrix positional_encodings_;
-    size_t max_length_;
-    size_t d_model_;
-
-public:
-    PositionalEncodingLayer(size_t max_length, size_t d_model);
-    
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return d_model_; }
-    size_t output_size() const override { return d_model_; }
-    std::string type() const override { return "PositionalEncoding"; }
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"PositionalEncoding\",\"max_length\":" + std::to_string(max_length_) + 
-               ",\"d_model\":" + std::to_string(d_model_) + "}"; 
-    }
-
-private:
-    void compute_positional_encodings();
-};
-
-// L1/L2 Regularization Layer
-class RegularizationLayer : public Layer {
-private:
-    double l1_lambda_;
-    double l2_lambda_;
-    Matrix last_input_;
-    size_t size_;
-
-public:
-    RegularizationLayer(size_t size, double l1_lambda = 0.0, double l2_lambda = 0.0);
-    
-    Matrix forward(const Matrix& input) override;
-    Matrix backward(const Matrix& gradient) override;
-    std::unique_ptr<Layer> clone() const override;
-      size_t input_size() const override { return size_; }
-    size_t output_size() const override { return size_; }
-    std::string type() const override;
-    std::string serialize_to_json() const override { 
-        return "{\"type\":\"Regularization\",\"size\":" + std::to_string(size_) + 
-               ",\"l1\":" + std::to_string(l1_lambda_) + ",\"l2\":" + std::to_string(l2_lambda_) + "}"; 
-    }
-    
-    // Regularization parameter accessors
-    double get_l1_lambda() const { return l1_lambda_; }
-    double get_l2_lambda() const { return l2_lambda_; }
-    void set_l1_lambda(double lambda) { l1_lambda_ = lambda; }
-    void set_l2_lambda(double lambda) { l2_lambda_ = lambda; }
 };
 
 } // namespace advanced
-} // namespace clmodel
+} // namespace asekioml

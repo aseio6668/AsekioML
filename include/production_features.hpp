@@ -13,7 +13,7 @@
 #include <string>
 #include <vector>
 
-namespace clmodel {
+namespace asekioml {
 namespace production {
 
 // Model versioning and registry
@@ -318,7 +318,7 @@ public:
     void save_to_file(const std::string& path) const;
     
     // Environment variables
-    void load_from_env(const std::string& prefix = "CLMODEL_");
+    void load_from_env(const std::string& prefix = "ASEKIOML_");
     
     // Watch for changes
     void watch_file_changes(std::function<void()> callback);
@@ -363,4 +363,4 @@ public:
 };
 
 } // namespace production
-} // namespace clmodel
+} // namespace asekioml

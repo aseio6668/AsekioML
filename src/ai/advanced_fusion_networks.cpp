@@ -5,7 +5,7 @@
 #include <cmath>
 #include <numeric>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // AdvancedMultiModalFusion Implementation
@@ -870,4 +870,4 @@ float MultiModalEvaluator::compute_separability(
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

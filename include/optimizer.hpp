@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-namespace clmodel {
+namespace asekioml {
 
 // Abstract base class for optimizers
 class Optimizer {
@@ -123,4 +123,4 @@ public:
 // Factory function for creating optimizers
 std::unique_ptr<Optimizer> create_optimizer(const std::string& name, double learning_rate = 0.01);
 
-} // namespace clmodel
+} // namespace asekioml

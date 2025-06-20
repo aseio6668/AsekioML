@@ -5,7 +5,7 @@
 #include <functional>
 #include <string>
 
-namespace clmodel {
+namespace asekioml {
 namespace models {
 
 // Model registry for easy access to pre-built architectures
@@ -268,4 +268,4 @@ private:
 };
 
 } // namespace models
-} // namespace clmodel
+} // namespace asekioml

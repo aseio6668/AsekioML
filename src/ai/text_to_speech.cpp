@@ -10,7 +10,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ===== TextToPhonemeConverter Implementation =====
@@ -392,4 +392,4 @@ const VoiceConfig& TextToSpeechPipeline::get_voice_config() const {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

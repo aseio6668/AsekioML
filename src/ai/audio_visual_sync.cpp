@@ -12,7 +12,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Helper function for creating test tensors with proper timing simulation
@@ -1014,4 +1014,4 @@ void AudioVisualSyncPipeline::validate_input_compatibility(const Tensor& audio, 
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

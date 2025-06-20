@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 
-namespace clmodel {
+namespace asekioml {
 
 // ReLU Implementation
 Matrix ReLU::forward(const Matrix& input) const {
@@ -148,4 +148,4 @@ std::unique_ptr<ActivationFunction> create_activation(const std::string& name) {
     }
 }
 
-} // namespace clmodel
+} // namespace asekioml

@@ -5,7 +5,7 @@
 #include <fstream>
 #include <memory>
 
-namespace clmodel {
+namespace asekioml {
 
 /**
  * @brief Model serialization formats
@@ -158,4 +158,4 @@ private:
     bool should_save(const std::map<std::string, double>& metrics, int epoch) const;
 };
 
-} // namespace clmodel
+} // namespace asekioml

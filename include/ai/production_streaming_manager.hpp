@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <functional>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Forward declarations
@@ -452,4 +452,4 @@ private:
 };
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

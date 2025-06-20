@@ -7,12 +7,12 @@
 #include <fstream>
 #include <immintrin.h> // For AVX/SSE
 
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
 #include <cuda_runtime.h>
 #include <cublas_v2.h>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ================================================================================================
@@ -430,7 +430,7 @@ void AIComputeEngine::vector_mul_simd(const double* a, const double* b, double* 
 }
 
 void AIComputeEngine::vector_add_cuda(const double* a, const double* b, double* result, size_t size) {
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     // Simplified CUDA implementation - in reality you'd need proper kernel launching
     (void)a; (void)b; (void)result; (void)size;
     // cudaMemcpy, kernel launch, etc.
@@ -442,7 +442,7 @@ void AIComputeEngine::vector_add_cuda(const double* a, const double* b, double* 
 
 void AIComputeEngine::matrix_multiply_cuda(const double* a, const double* b, double* c,
                                           size_t m, size_t n, size_t k) {
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     // Simplified - would use cuBLAS for optimal performance
     (void)a; (void)b; (void)c; (void)m; (void)n; (void)k;
 #else
@@ -472,7 +472,7 @@ void AIComputeEngine::update_stats(bool is_gpu_operation, double elapsed_time) {
 }
 
 bool AIComputeEngine::initialize_cuda() {
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     int device_count;
     cudaError_t result = cudaGetDeviceCount(&device_count);
     cuda_initialized_ = (result == cudaSuccess && device_count > 0);
@@ -488,7 +488,7 @@ bool AIComputeEngine::initialize_opencl() {
 }
 
 bool AIComputeEngine::initialize_rocm() {
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
     // ROCm initialization would go here
     return false;
 #else
@@ -638,4 +638,4 @@ double ComputeProfiler::get_throughput(const std::string& operation) const {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

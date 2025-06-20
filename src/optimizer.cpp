@@ -2,7 +2,7 @@
 #include <cmath>
 #include <stdexcept>
 
-namespace clmodel {
+namespace asekioml {
 
 // SGD Implementation
 SGD::SGD(double learning_rate, double momentum)
@@ -262,4 +262,4 @@ std::unique_ptr<Optimizer> create_optimizer(const std::string& name, double lear
     }
 }
 
-} // namespace clmodel
+} // namespace asekioml

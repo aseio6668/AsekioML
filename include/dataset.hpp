@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 
-namespace clmodel {
+namespace asekioml {
 
 class Dataset {
 private:
@@ -88,4 +88,4 @@ Dataset make_circles(size_t n_samples = 100, double noise = 0.1,
 
 } // namespace datasets
 
-} // namespace clmodel
+} // namespace asekioml

@@ -10,7 +10,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ================================================================================================
@@ -1409,4 +1409,4 @@ size_t TransformerBlock::get_weights_size() const {
            feed_forward_->get_weights_size();
 }
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

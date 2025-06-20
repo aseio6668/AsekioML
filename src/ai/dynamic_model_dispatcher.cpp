@@ -6,7 +6,7 @@
 #include <sstream>
 #include <iomanip>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 DynamicModelDispatcher::DynamicModelDispatcher(const LoadBalancingConfig& config)
@@ -609,4 +609,4 @@ void DynamicModelDispatcher::updateDispatchStatistics(const std::string& model_i
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

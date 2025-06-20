@@ -7,7 +7,7 @@
 #include <memory>
 #include <unordered_map>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 /**
@@ -242,4 +242,4 @@ namespace MultiModalUtils {    /**
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

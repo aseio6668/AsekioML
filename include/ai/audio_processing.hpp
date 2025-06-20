@@ -6,7 +6,7 @@
 #include <memory>
 #include <complex>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 /**
@@ -311,4 +311,4 @@ private:
 };
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

@@ -4,7 +4,7 @@
 #include <cmath>
 #include <algorithm>
 
-namespace clmodel {
+namespace asekioml {
 
 // Focal Loss for handling class imbalance
 class FocalLoss : public LossFunction {
@@ -236,4 +236,4 @@ public:    ContrastiveLoss(double margin = 1.0) : margin_(margin) {}
     std::string name() const override { return "ContrastiveLoss"; }
 };
 
-} // namespace clmodel
+} // namespace asekioml

@@ -34,7 +34,7 @@
 #include "advanced_layers.hpp"
 #include "model_zoo.hpp"
 
-namespace clmodel {
+namespace asekioml {
 
 // Version information
 const char* version() { return "2.0.0"; } // Bumped version for advanced features
@@ -50,13 +50,13 @@ struct FrameworkInfo {
     static constexpr bool has_advanced_threading = true;
     static constexpr bool has_transparency_tools = true;
     
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     static constexpr bool has_gpu_support = true;
 #else
     static constexpr bool has_gpu_support = false;
 #endif
 
-#ifdef CLMODEL_OPENMP_SUPPORT
+#ifdef ASEKIOML_OPENMP_SUPPORT
     static constexpr bool has_openmp = true;
 #else
     static constexpr bool has_openmp = false;
@@ -159,4 +159,4 @@ inline TrainingHistory quick_train(
     return network.get_history();
 }
 
-} // namespace clmodel
+} // namespace asekioml

@@ -11,7 +11,7 @@
 #include <chrono>
 #include <limits>
 
-namespace clmodel {
+namespace asekioml {
 
 // Forward declaration
 class NeuralNetwork;
@@ -350,4 +350,4 @@ public:    LambdaCallback(const std::function<void(int, const TrainingHistory&)>
     }
 };
 
-} // namespace clmodel
+} // namespace asekioml

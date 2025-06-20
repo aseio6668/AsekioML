@@ -5,7 +5,7 @@
 #include <cmath>
 #include <sstream>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // MultiModalTensor Implementation
@@ -672,4 +672,4 @@ Tensor interpolate_modalities(const Tensor& modal1_features, const Tensor& modal
 } // namespace MultiModalUtils
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

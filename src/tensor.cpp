@@ -8,7 +8,7 @@
 #include <cmath>
 #include <stdexcept>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // Private helper methods
@@ -909,4 +909,4 @@ std::ostream& operator<<(std::ostream& os, const Tensor& tensor) {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

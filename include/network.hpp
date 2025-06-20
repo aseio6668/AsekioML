@@ -9,7 +9,7 @@
 #include <string>
 #include <map>
 
-namespace clmodel {
+namespace asekioml {
 
 class NeuralNetwork {
 private:
@@ -111,4 +111,4 @@ private:
     void copy_from(const NeuralNetwork& other);
 };
 
-} // namespace clmodel
+} // namespace asekioml

@@ -8,7 +8,7 @@
 #include <fstream>
 #include <limits>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ================================================================================================
@@ -968,4 +968,4 @@ std::string FlattenLayer::serialize_to_json() const {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

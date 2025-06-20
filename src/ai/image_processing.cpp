@@ -9,7 +9,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 // ===== Utility Functions =====
@@ -681,4 +681,4 @@ Tensor ImageProcessor::create_batch(const std::vector<Tensor>& images, bool chan
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

@@ -21,19 +21,19 @@
 #endif
 
 // GPU support headers
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
 #include <cuda_runtime.h>
 #endif
 
-#ifdef CLMODEL_OPENCL_SUPPORT
+#ifdef ASEKIOML_OPENCL_SUPPORT
 #include <CL/cl.h>
 #endif
 
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
 #include <hip/hip_runtime.h>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 AIMemoryManager& AIMemoryManager::instance() {
@@ -136,7 +136,7 @@ void* AIMemoryManager::allocate_cpu(size_t size, size_t alignment) {
 }
 
 void* AIMemoryManager::allocate_cuda(size_t size) {
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     if (!cuda_available_) return nullptr;
     
     void* ptr = nullptr;
@@ -149,7 +149,7 @@ void* AIMemoryManager::allocate_cuda(size_t size) {
 }
 
 void* AIMemoryManager::allocate_opencl(size_t size) {
-#ifdef CLMODEL_OPENCL_SUPPORT
+#ifdef ASEKIOML_OPENCL_SUPPORT
     if (!opencl_available_) return nullptr;
     
     // OpenCL allocation would require context - simplified implementation
@@ -163,7 +163,7 @@ void* AIMemoryManager::allocate_opencl(size_t size) {
 }
 
 void* AIMemoryManager::allocate_rocm(size_t size) {
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
     if (!rocm_available_) return nullptr;
     
     void* ptr = nullptr;
@@ -186,7 +186,7 @@ void AIMemoryManager::deallocate_cpu(void* ptr, size_t size) {
 
 void AIMemoryManager::deallocate_cuda(void* ptr, size_t size) {
     (void)size;
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     if (cuda_available_) {
         cudaFree(ptr);
     }
@@ -196,7 +196,7 @@ void AIMemoryManager::deallocate_cuda(void* ptr, size_t size) {
 void AIMemoryManager::deallocate_opencl(void* ptr, size_t size) {
     (void)ptr;
     (void)size;
-#ifdef CLMODEL_OPENCL_SUPPORT
+#ifdef ASEKIOML_OPENCL_SUPPORT
     // OpenCL deallocation would require context
     // clReleaseMemObject((cl_mem)ptr);
 #endif
@@ -204,7 +204,7 @@ void AIMemoryManager::deallocate_opencl(void* ptr, size_t size) {
 
 void AIMemoryManager::deallocate_rocm(void* ptr, size_t size) {
     (void)size;
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
     if (rocm_available_) {
         hipFree(ptr);
     }
@@ -352,7 +352,7 @@ void AIMemoryManager::initialize_gpu_support() {
 }
 
 void AIMemoryManager::detect_cuda_support() {
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
     int device_count = 0;
     cudaError_t result = cudaGetDeviceCount(&device_count);
     cuda_available_ = (result == cudaSuccess && device_count > 0);
@@ -362,7 +362,7 @@ void AIMemoryManager::detect_cuda_support() {
 }
 
 void AIMemoryManager::detect_opencl_support() {
-#ifdef CLMODEL_OPENCL_SUPPORT
+#ifdef ASEKIOML_OPENCL_SUPPORT
     cl_uint platform_count = 0;
     cl_int result = clGetPlatformIDs(0, nullptr, &platform_count);
     opencl_available_ = (result == CL_SUCCESS && platform_count > 0);
@@ -372,7 +372,7 @@ void AIMemoryManager::detect_opencl_support() {
 }
 
 void AIMemoryManager::detect_rocm_support() {
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
     int device_count = 0;
     hipError_t result = hipGetDeviceCount(&device_count);
     rocm_available_ = (result == hipSuccess && device_count > 0);
@@ -384,14 +384,14 @@ void AIMemoryManager::detect_rocm_support() {
 void AIMemoryManager::synchronize_gpu(MemoryType type) {
     switch (type) {
         case MemoryType::CUDA:
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
             if (cuda_available_) {
                 cudaDeviceSynchronize();
             }
 #endif
             break;
         case MemoryType::ROCm:
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
             if (rocm_available_) {
                 hipDeviceSynchronize();
             }
@@ -406,14 +406,14 @@ void AIMemoryManager::synchronize_gpu(MemoryType type) {
 void AIMemoryManager::copy_to_gpu(void* dst, const void* src, size_t size, MemoryType gpu_type) {
     switch (gpu_type) {
         case MemoryType::CUDA:
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
             if (cuda_available_) {
                 cudaMemcpy(dst, src, size, cudaMemcpyHostToDevice);
             }
 #endif
             break;
         case MemoryType::ROCm:
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
             if (rocm_available_) {
                 hipMemcpy(dst, src, size, hipMemcpyHostToDevice);
             }
@@ -429,14 +429,14 @@ void AIMemoryManager::copy_to_gpu(void* dst, const void* src, size_t size, Memor
 void AIMemoryManager::copy_from_gpu(void* dst, const void* src, size_t size, MemoryType gpu_type) {
     switch (gpu_type) {
         case MemoryType::CUDA:
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
             if (cuda_available_) {
                 cudaMemcpy(dst, src, size, cudaMemcpyDeviceToHost);
             }
 #endif
             break;
         case MemoryType::ROCm:
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
             if (rocm_available_) {
                 hipMemcpy(dst, src, size, hipMemcpyDeviceToHost);
             }
@@ -453,14 +453,14 @@ void AIMemoryManager::copy_gpu_to_gpu(void* dst, const void* src, size_t size,
     if (dst_type == src_type) {
         switch (dst_type) {
             case MemoryType::CUDA:
-#ifdef CLMODEL_CUDA_SUPPORT
+#ifdef ASEKIOML_CUDA_SUPPORT
                 if (cuda_available_) {
                     cudaMemcpy(dst, src, size, cudaMemcpyDeviceToDevice);
                 }
 #endif
                 break;
             case MemoryType::ROCm:
-#ifdef CLMODEL_ROCM_SUPPORT
+#ifdef ASEKIOML_ROCM_SUPPORT
                 if (rocm_available_) {
                     hipMemcpy(dst, src, size, hipMemcpyDeviceToDevice);
                 }
@@ -587,4 +587,4 @@ void MemoryMappedTensor::async_sync() {
 }
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml

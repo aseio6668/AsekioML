@@ -10,7 +10,7 @@
 #include <vector>
 #include <chrono>
 
-namespace clmodel {
+namespace asekioml {
 
 class AdvancedTrainer {
 private:
@@ -349,4 +349,4 @@ public:
     }
 };
 
-} // namespace clmodel
+} // namespace asekioml

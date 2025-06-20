@@ -4,7 +4,7 @@
 #include <cmath>
 #include <algorithm>
 
-namespace clmodel {
+namespace asekioml {
 
 namespace gradient_clipping {
 
@@ -66,4 +66,4 @@ void clip_by_global_norm(std::vector<Matrix*>& gradient_matrices, double max_nor
 
 } // namespace gradient_clipping
 
-} // namespace clmodel
+} // namespace asekioml

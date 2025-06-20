@@ -6,7 +6,7 @@
 #include <string>
 #include <sstream>
 
-namespace clmodel {
+namespace asekioml {
 namespace advanced {
 
 // ====== BATCH NORMALIZATION LAYER ======
@@ -422,4 +422,4 @@ std::unique_ptr<Layer> LSTMLayer::clone() const {
 }
 
 } // namespace advanced
-} // namespace clmodel
+} // namespace asekioml
