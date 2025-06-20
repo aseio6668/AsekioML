@@ -1,0 +1,22 @@
+# Fix CMakeLists.txt Script
+
+# This file contains the remaining fixes needed for CMakeLists.txt
+# Replace all instances of "target_link_libraries( asekioml)" with the correct target name
+
+# The broken lines need to be fixed to:
+target_link_libraries(ai_infrastructure_demo_simple asekioml)
+target_link_libraries(image_processing_demo asekioml)
+target_link_libraries(audio_processing_demo asekioml) 
+target_link_libraries(text_to_image_demo asekioml)
+target_link_libraries(text_to_speech_demo asekioml)
+target_link_libraries(multimodal_attention_demo asekioml)
+target_link_libraries(multimodal_basic_test asekioml)
+target_link_libraries(advanced_fusion_demo asekioml)
+target_link_libraries(advanced_fusion_test asekioml)
+target_link_libraries(debug_image_filters asekioml)
+target_link_libraries(debug_text_to_image_integration asekioml)
+target_link_libraries(video_tensor_operations_demo asekioml)
+target_link_libraries(video_diffusion_demo asekioml)
+# ... and so on for all remaining broken entries
+
+# Manual fix required due to the specific pattern of each executable
