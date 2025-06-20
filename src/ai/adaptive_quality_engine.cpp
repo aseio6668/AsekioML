@@ -1,33 +1,5 @@
 #include "ai/adaptive_quality_engine.hpp"
-#include <algorithm>
-#include <cmath>
-#include <numeric>
-#include <random>
-#include <sstream>
-#include <thread>
-#include <iostream>
-#include <iomanip>
-
-namespace asekioml {
-namespace ai {
-
-AdaptiveQualityEngine::AdaptiveQualityEngine(const AdaptiveThresholds& thresholds) 
-    : thresholds_(thresholds), strategy_(OptimizationStrategy::BALANCED) {
-    // Initialize default settings
-}
-
-AdaptiveQualityEngine::~AdaptiveQualityEngine() {
-    shutdown();
-}
-
-bool AdaptiveQualityEngine::initialize() {
-    is_running_.store(true);
-    adaptation_thread_ = std::thread(&AdaptiveQualityEngine::adaptationLoop, this);
-    return true;
-}
-
-void AdaptiveQualityEngine::shutdown() {
-    is_running_.store(false);
+// All implementations moved to header file
     if (adaptation_thread_.joinable()) {
         adaptation_thread_.join();
     }

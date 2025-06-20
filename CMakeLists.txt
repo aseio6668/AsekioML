@@ -64,10 +64,13 @@ set(SOURCES
     src/ai/orchestral_ai_director.cpp  # Week 16: Orchestral AI system coordination
     src/ai/dynamic_model_dispatcher.cpp  # Week 16: Dynamic model routing and load balancing
     src/ai/real_time_content_pipeline.cpp  # Week 16: Real-time content generation pipeline    src/ai/adaptive_quality_engine.cpp  # Week 16: Real-time quality optimization engine
-    src/ai/production_streaming_manager.cpp  # Week 16: Enterprise streaming infrastructure    
-    # Week 17 - Production Polish & Enterprise Features
+    src/ai/production_streaming_manager.cpp  # Week 16: Enterprise streaming infrastructure      # Week 17 - Production Polish & Enterprise Features
     # src/api/rest_api_server.cpp  # Week 17: REST API server for web integration - TEMPORARILY DISABLED    
     src/advanced_layers.cpp  # Re-enabled after fixing abstract class issues
+    
+    # Additional AI components that need to be included
+    src/ai/adaptive_pipeline_manager.cpp  # Cross-modal guidance support
+    src/ai/streaming_fusion_manager.cpp   # Video-audio-text fusion support
 )
 
 # Header files
