@@ -9,7 +9,7 @@
 #define M_PI 3.14159265358979323846
 #endif
 
-namespace clmodel {
+namespace asekioml {
 
 // Base class for learning rate schedulers
 class LearningRateScheduler {
@@ -176,4 +176,4 @@ public:
     }
 };
 
-} // namespace clmodel
+} // namespace asekioml

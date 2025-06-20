@@ -13,6 +13,8 @@
 #include <queue>
 #include <mutex>
 #include <atomic>
+#include <thread>
+#include <iostream>
 
 namespace asekioml {
 namespace ai {
@@ -48,26 +50,13 @@ public:
         double cross_modal_alignment;
         double processing_efficiency;
         double user_satisfaction_score;
-        std::chrono::steady_clock::time_point timestamp;
-        
+        std::chrono::milliseconds processing_time;
+
         QualityMetrics() : overall_quality(0.0), visual_quality(0.0),
                           audio_quality(0.0), text_coherence(0.0),
                           temporal_consistency(0.0), cross_modal_alignment(0.0),
-                          processing_efficiency(0.0), user_satisfaction_score(0.0) {}
-    };
-
-    /**
-     * @brief Quality prediction model
-     */
-    struct QualityPrediction {
-        double predicted_quality;
-        double confidence_score;
-        double estimated_processing_time_ms;
-        std::string recommended_model;
-        std::map<std::string, double> optimization_suggestions;
-        
-        QualityPrediction() : predicted_quality(0.0), confidence_score(0.0),
-                             estimated_processing_time_ms(0.0) {}
+                          processing_efficiency(0.0), user_satisfaction_score(0.0),
+                          processing_time(0) {}
     };
 
     /**
@@ -94,129 +83,75 @@ public:
     };
 
     /**
-     * @brief Quality optimization context
+     * @brief Default Constructor - Initializes with default thresholds
      */
-    struct OptimizationContext {
-        std::string content_type;
-        std::map<std::string, double> requirements;
-        double system_load;
-        double available_resources;
-        std::vector<QualityMetrics> recent_metrics;
-        std::map<std::string, double> model_performance_history;
-        
-        OptimizationContext() : system_load(0.5), available_resources(1.0) {}
-    };
+    AdaptiveQualityEngine()
+        : AdaptiveQualityEngine(AdaptiveThresholds()) {
+        std::cout << "AdaptiveQualityEngine: Initialized with default thresholds" << std::endl;
+    }
 
-public:
     /**
-     * @brief Constructor
+     * @brief Constructor with custom thresholds
      */
-    AdaptiveQualityEngine(const AdaptiveThresholds& thresholds = AdaptiveThresholds{});
-    
+    AdaptiveQualityEngine(const AdaptiveThresholds& thresholds) 
+        : thresholds_(thresholds),
+          strategy_(OptimizationStrategy::BALANCED),
+          quality_history_(),
+          model_quality_scores_(),
+          model_speed_scores_(),
+          is_running_(false) {
+        std::cout << "AdaptiveQualityEngine: Initialized with thresholds: "
+                  << "min=" << thresholds.min_quality_threshold 
+                  << ", max=" << thresholds.max_quality_threshold 
+                  << ", target=" << thresholds.target_quality << std::endl;
+    }
+
     /**
      * @brief Destructor
      */
-    ~AdaptiveQualityEngine();
+    ~AdaptiveQualityEngine() {
+        shutdown();
+        if (adaptation_thread_.joinable()) {
+            adaptation_thread_.join();
+        }
+    }
 
     // Core quality optimization
     
     /**
      * @brief Initialize the quality engine
      */
-    bool initialize();
+    bool initialize() {
+        if (!is_running_.load()) {
+            is_running_.store(true);
+            adaptation_thread_ = std::thread(&AdaptiveQualityEngine::adaptationLoop, this);
+            std::cout << "AdaptiveQualityEngine: Initialized and started adaptation loop" << std::endl;
+            return true;
+        }
+        return false;
+    }
     
     /**
      * @brief Shutdown the quality engine
      */
-    void shutdown();
-    
-    /**
-     * @brief Set optimization strategy
-     */
-    void setOptimizationStrategy(OptimizationStrategy strategy);
-    
-    /**
-     * @brief Assess content quality
-     */
-    QualityMetrics assessQuality(const MultiModalContent& content);
-    
-    /**
-     * @brief Predict quality for given configuration
-     */
-    QualityPrediction predictQuality(const MultiModalContent& input, 
-                                   const std::string& model_id,
-                                   const OptimizationContext& context);
-    
-    /**
-     * @brief Optimize quality thresholds based on recent performance
-     */
-    void optimizeThresholds(const std::vector<QualityMetrics>& recent_metrics);
-    
-    /**
-     * @brief Get optimal model selection for quality requirements
-     */
-    std::string selectOptimalModel(const std::vector<std::string>& available_models,
-                                  const OptimizationContext& context);
+    void shutdown() {
+        if (is_running_.load()) {
+            is_running_.store(false);
+            if (adaptation_thread_.joinable()) {
+                adaptation_thread_.join();
+            }
+            std::cout << "AdaptiveQualityEngine: Shutdown complete" << std::endl;
+        }
+    }
 
-    // Quality monitoring and feedback
-    
-    /**
-     * @brief Record quality metrics for learning
-     */
-    void recordQualityMetrics(const std::string& model_id, 
-                             const QualityMetrics& metrics,
-                             double processing_time_ms);
-    
-    /**
-     * @brief Get current quality trends
-     */
-    std::map<std::string, double> getQualityTrends() const;
-    
-    /**
-     * @brief Get optimization recommendations
-     */
-    std::map<std::string, std::string> getOptimizationRecommendations(
-        const OptimizationContext& context) const;
+    // Get current optimization strategy
+    OptimizationStrategy getStrategy() const { return strategy_; }
 
-    // Adaptive learning
-    
-    /**
-     * @brief Update quality prediction model
-     */
-    void updatePredictionModel(const std::vector<QualityMetrics>& training_data);
-    
-    /**
-     * @brief Get quality-speed trade-off curve
-     */
-    std::vector<std::pair<double, double>> getQualitySpeedCurve(
-        const std::string& content_type) const;
-    
-    /**
-     * @brief Calculate optimal quality target for current conditions
-     */
-    double calculateOptimalQualityTarget(const OptimizationContext& context) const;
+    // Set optimization strategy
+    void setStrategy(OptimizationStrategy strategy) { strategy_ = strategy; }
 
-    // Configuration and status
-    
-    /**
-     * @brief Update adaptive thresholds
-     */
-    void updateThresholds(const AdaptiveThresholds& thresholds);
-    
-    /**
-     * @brief Get current thresholds
-     */
-    AdaptiveThresholds getCurrentThresholds() const;
-    
-    /**
-     * @brief Get engine statistics
-     */
-    std::map<std::string, double> getEngineStatistics() const;
-    
-    /**
-     * @brief Generate quality analysis report
-     */
-    std::string generateQualityReport() const;
+    // Check if engine is running
+    bool isRunning() const { return is_running_.load(); }
 
 private:
     // Configuration
@@ -232,36 +167,20 @@ private:
     // Adaptive learning
     std::atomic<bool> is_running_{false};
     std::thread adaptation_thread_;
-    
-    // Statistics
-    std::map<std::string, size_t> assessment_counts_;
-    std::map<std::string, double> total_quality_scores_;
-    std::map<std::string, double> total_processing_times_;
-    mutable std::mutex stats_mutex_;
-    
-    // Internal methods
-    void adaptationLoop();
-    double calculateQualityScore(const MultiModalContent& content) const;
-    double calculateVisualQuality(const Tensor& visual_features) const;
-    double calculateAudioQuality(const Tensor& audio_features) const;
-    double calculateTextCoherence(const Tensor& text_features) const;
-    double calculateTemporalConsistency(const MultiModalContent& content) const;
-    double calculateCrossModalAlignment(const MultiModalContent& content) const;
-    double calculateProcessingEfficiency(double processing_time, double content_complexity) const;
-    
-    std::string getBestModelForQuality(const std::vector<std::string>& models,
-                                      double target_quality) const;
-    std::string getBestModelForSpeed(const std::vector<std::string>& models) const;
-    std::string getBestModelBalanced(const std::vector<std::string>& models,
-                                   const OptimizationContext& context) const;
-    
-    void updateModelScores(const std::string& model_id, 
-                          const QualityMetrics& metrics, 
-                          double processing_time);
-    
-    double computeQualityTrend(const std::vector<QualityMetrics>& metrics) const;
-    void generateOptimizationSuggestions(const OptimizationContext& context,
-                                        std::map<std::string, std::string>& suggestions) const;
+
+    // Private methods
+    void adaptationLoop() {
+        while (is_running_.load()) {
+            // Perform quality adaptation
+            {
+                std::lock_guard<std::mutex> lock(metrics_mutex_);
+                // Process quality history and adjust thresholds
+            }
+            
+            // Sleep for the adaptation interval
+            std::this_thread::sleep_for(thresholds_.adaptation_interval);
+        }
+    }
 };
 
 } // namespace ai

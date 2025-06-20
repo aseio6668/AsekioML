@@ -2,54 +2,54 @@
 
 A comprehensive, from-scratch machine learning framework implemented in modern C++17. AsekioML provides all the essential components needed to build, train, and deploy neural networks with advanced performance optimizations and production-ready features.
 
-## 🚀 Key Advantages
+Key Advantages
 
-**Performance & Efficiency:**
-- **SIMD-Optimized Operations**: AVX2-accelerated matrix operations for 2-4x speedup
-- **Parallel Processing**: OpenMP-based parallel matrix multiplication and training
-- **Memory Pool Allocation**: Custom memory management for reduced allocation overhead
-- **Cache-Friendly Data Structures**: Optimized memory layouts for better performance
+Performance & Efficiency:
+- SIMD-Optimized Operations: AVX2-accelerated matrix operations for 2-4x speedup
+- Parallel Processing: OpenMP-based parallel matrix multiplication and training
+- Memory Pool Allocation: Custom memory management for reduced allocation overhead
+- Cache-Friendly Data Structures: Optimized memory layouts for better performance
 
-**Modern API Design:**
-- **Fluent Interface**: Method chaining for intuitive model building
-- **Automatic Best Practices**: Smart defaults and auto-configuration
-- **Type Safety**: Modern C++17 features for compile-time safety
-- **Zero Dependencies**: Self-contained framework with no external requirements
+Modern API Design:
+- Fluent Interface: Method chaining for intuitive model building
+- Automatic Best Practices: Smart defaults and auto-configuration
+- Type Safety: Modern C++17 features for compile-time safety
+- Zero Dependencies: Self-contained framework with no external requirements
 
-**Production Ready:**
-- **High-Performance Inference Server**: Multi-threaded server with batching
-- **Model Registry & Versioning**: Enterprise-grade model management
-- **Advanced Training**: Callbacks, early stopping, automatic hyperparameter tuning
-- **Statistical Monitoring**: Complete suite with PSI, Wasserstein, KS, and Chi-square tests for drift detection
+Production Ready:
+- High-Performance Inference Server: Multi-threaded server with batching
+- Model Registry & Versioning: Enterprise-grade model management
+- Advanced Training: Callbacks, early stopping, automatic hyperparameter tuning
+- Statistical Monitoring: Complete suite with PSI, Wasserstein, KS, and Chi-square tests for drift detection
 
 ## Features
 
 ### Core Components
-- **Matrix Operations**: Efficient matrix class with SIMD-optimized linear algebra
-- **Neural Network Layers**: Dense, Activation, and Dropout layers with advanced variants
-- **Activation Functions**: ReLU, Sigmoid, Tanh, Softmax, LeakyReLU, Linear
-- **Loss Functions**: MSE, Cross-Entropy, Binary Cross-Entropy, MAE, Huber Loss
-- **Optimizers**: SGD (with momentum), Adam, RMSprop, AdaGrad
-- **Dataset Management**: Data loading, preprocessing, and synthetic data generation
+- Matrix Operations: Efficient matrix class with SIMD-optimized linear algebra
+- Neural Network Layers: Dense, Activation, and Dropout layers with advanced variants
+- Activation Functions: ReLU, Sigmoid, Tanh, Softmax, LeakyReLU, Linear
+- Loss Functions: MSE, Cross-Entropy, Binary Cross-Entropy, MAE, Huber Loss
+- Optimizers: SGD (with momentum), Adam, RMSprop, AdaGrad
+- Dataset Management: Data loading, preprocessing, and synthetic data generation
 
 ### Advanced Features ⭐
-- **SIMD Matrix Operations**: 2-4x faster matrix multiplication with AVX2
-- **Memory Optimization**: Custom allocators and memory pools for efficiency
-- **Modern Fluent API**: Intuitive model building with method chaining
-- **Production Features**: Inference server, model registry, monitoring
-- **Statistical Monitoring**: Complete drift detection suite with PSI, Wasserstein, KS, and Chi-square tests
-- **Advanced Training**: Callbacks, early stopping, hyperparameter tuning
-- **Parallel Processing**: OpenMP-accelerated operations
-- **Multi-Vendor GPU Support**: NVIDIA CUDA, AMD ROCm, and OpenCL acceleration
+- SIMD Matrix Operations: 2-4x faster matrix multiplication with AVX2
+- Memory Optimization: Custom allocators and memory pools for efficiency
+- Modern Fluent API: Intuitive model building with method chaining
+- Production Features: Inference server, model registry, monitoring
+- Statistical Monitoring: Complete drift detection suite with PSI, Wasserstein, KS, and Chi-square tests
+- Advanced Training: Callbacks, early stopping, hyperparameter tuning
+- Parallel Processing: OpenMP-accelerated operations
+- Multi-Vendor GPU Support: NVIDIA CUDA, AMD ROCm, and OpenCL acceleration
 
 ### GPU Acceleration 🚀
-- **NVIDIA GPUs**: Full CUDA support with cuBLAS and cuDNN optimization
-- **AMD GPUs**: Native ROCm/HIP support with rocBLAS acceleration
-- **Intel GPUs**: OpenCL support for Intel Arc and integrated graphics
-- **Cross-Platform**: OpenCL fallback for maximum hardware compatibility
-- **Automatic Detection**: Framework automatically selects the best available GPU
+- NVIDIA GPUs: Full CUDA support with cuBLAS and cuDNN optimization
+- AMD GPUs: Native ROCm/HIP support with rocBLAS acceleration
+- Intel GPUs: OpenCL support for Intel Arc and integrated graphics
+- Cross-Platform: OpenCL fallback for maximum hardware compatibility
+- Automatic Detection: Framework automatically selects the best available GPU
 
-## Quick Start
+# Quick Start
 
 ### Building the Framework
 
@@ -96,7 +96,7 @@ int main() {
     callbacks.push_back(std::make_unique<asekioml::api::Trainer::EarlyStopping>(10));
     callbacks.push_back(std::make_unique<asekioml::api::Trainer::ModelCheckpoint>("best_model.clm"));
     
-    auto history = asekioml::api::Trainer::fit(*model, dataset, config, callbacks);
+    auto history = asekioml::api::Trainer::fit(model, dataset, config, callbacks);
       return 0;
 }
 ```
@@ -206,7 +206,7 @@ asekioml::Matrix A = {{1, 2, 3}, {4, 5, 6}};
 asekioml::Matrix B = asekioml::Matrix::random(3, 2, -1.0, 1.0);
 
 // Operations
-asekioml::Matrix C = A * B;                    // Matrix multiplication
+asekioml::Matrix C = A  B;                    // Matrix multiplication
 asekioml::Matrix D = A + A;                    // Element-wise addition
 asekioml::Matrix E = A.transpose();            // Transpose
 asekioml::Matrix F = A.hadamard(A);           // Element-wise multiplication
@@ -244,12 +244,12 @@ dataset.save_csv("processed_data.csv");
 ## Activation Functions
 
 Available activation functions:
-- **ReLU**: `f(x) = max(0, x)`
-- **Sigmoid**: `f(x) = 1 / (1 + e^(-x))`
-- **Tanh**: `f(x) = tanh(x)`
-- **Softmax**: For multi-class classification
-- **LeakyReLU**: `f(x) = x if x > 0 else α*x`
-- **Linear**: Identity function
+- ReLU: `f(x) = max(0, x)`
+- Sigmoid: `f(x) = 1 / (1 + e^(-x))`
+- Tanh: `f(x) = tanh(x)`
+- Softmax: For multi-class classification
+- LeakyReLU: `f(x) = x if x > 0 else αx`
+- Linear: Identity function
 
 ```cpp
 // Create activation layers
@@ -263,11 +263,11 @@ network.add_activation_layer("softmax", 10);
 
 ## Loss Functions
 
-- **Mean Squared Error**: For regression
-- **Cross-Entropy**: For multi-class classification
-- **Binary Cross-Entropy**: For binary classification
-- **Mean Absolute Error**: Robust to outliers
-- **Huber Loss**: Combination of MSE and MAE
+- Mean Squared Error: For regression
+- Cross-Entropy: For multi-class classification
+- Binary Cross-Entropy: For binary classification
+- Mean Absolute Error: Robust to outliers
+- Huber Loss: Combination of MSE and MAE
 
 ## Optimizers
 
@@ -373,17 +373,17 @@ layer.initialize_random(-0.1, 0.1);  // Random uniform
 ### Optional GPU Requirements
 For GPU acceleration, install one or more of the following:
 
-**NVIDIA GPUs (CUDA)**:
+NVIDIA GPUs (CUDA):
 - CUDA Toolkit 11.0+ ([Download](https://developer.nvidia.com/cuda-downloads))
 - cuBLAS (included with CUDA)
 - cuDNN 8.0+ (optional, for advanced optimizations)
 
-**AMD GPUs (ROCm)**:
+AMD GPUs (ROCm):
 - ROCm 4.0+ ([Installation Guide](https://rocmdocs.amd.com/en/latest/Installation_Guide/Installation-Guide.html))
 - rocBLAS (included with ROCm)
 - Compatible with RX 5000/6000 series and RDNA/RDNA2 architecture
 
-**Intel/Cross-Platform (OpenCL)**:
+Intel/Cross-Platform (OpenCL):
 - OpenCL 2.0+ drivers
 - Intel Arc GPU drivers for discrete GPUs
 - Integrated graphics drivers for Intel CPUs
@@ -393,7 +393,7 @@ For GPU acceleration, install one or more of the following:
 - rocBLAS (included with ROCm)
 - Supported on AMD RX 5000/6000 series and RDNA/RDNA2 architecture
 
-**Intel/Cross-Platform (OpenCL)**:
+Intel/Cross-Platform (OpenCL):
 - OpenCL 2.0+ drivers (usually included with GPU drivers)
 - Intel Arc GPUs, Intel integrated graphics, or any OpenCL-compatible device
 
@@ -468,12 +468,12 @@ CLModel/
 
 ## Performance Tips
 
-1. **Use appropriate batch sizes**: 32-128 typically work well
-2. **Normalize your data**: Use `dataset.normalize_features()`
-3. **Choose the right optimizer**: Adam is generally a good default
-4. **Experiment with learning rates**: Start with 0.001 for Adam, 0.01 for SGD
-5. **Use dropout for regularization**: Helps prevent overfitting
-6. **Monitor training**: Set `verbose=true` to watch training progress
+1. Use appropriate batch sizes: 32-128 typically work well
+2. Normalize your data: Use `dataset.normalize_features()`
+3. Choose the right optimizer: Adam is generally a good default
+4. Experiment with learning rates: Start with 0.001 for Adam, 0.01 for SGD
+5. Use dropout for regularization: Helps prevent overfitting
+6. Monitor training: Set `verbose=true` to watch training progress
 
 ## Contributing
 

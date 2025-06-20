@@ -2,7 +2,7 @@
 
 #include <vector>
 
-namespace clmodel {
+namespace asekioml {
 
 // Training history structure
 struct TrainingHistory {
@@ -52,4 +52,4 @@ struct TrainingHistory {
     }
 };
 
-} // namespace clmodel
+} // namespace asekioml

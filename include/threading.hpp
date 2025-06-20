@@ -16,7 +16,7 @@
 #include <unordered_map>
 #include <type_traits>
 
-namespace clmodel {
+namespace asekioml {
 namespace threading {
 
 // Thread pool for parallel inference (no GIL limitations!)
@@ -413,4 +413,4 @@ private:    void update_latency(std::chrono::high_resolution_clock::time_point s
 };
 
 } // namespace threading
-} // namespace clmodel
+} // namespace asekioml

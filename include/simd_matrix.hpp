@@ -11,7 +11,7 @@
 #include <omp.h>
 #endif
 
-namespace clmodel {
+namespace asekioml {
 namespace simd {
 
 // SIMD-optimized matrix operations
@@ -90,4 +90,4 @@ public:
 };
 
 } // namespace simd
-} // namespace clmodel
+} // namespace asekioml

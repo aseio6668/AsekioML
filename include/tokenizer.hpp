@@ -8,7 +8,7 @@
 #include <sstream>
 #include <algorithm>
 
-namespace clmodel {
+namespace asekioml {
 
 // Token representation with debugging info
 struct Token {
@@ -263,4 +263,4 @@ public:
     }
 };
 
-} // namespace clmodel
+} // namespace asekioml

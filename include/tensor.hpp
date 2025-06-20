@@ -6,7 +6,7 @@
 #include <initializer_list>
 #include <functional>
 
-namespace clmodel {
+namespace asekioml {
 namespace ai {
 
 /**
@@ -165,4 +165,4 @@ Tensor operator/(double scalar, const Tensor& tensor);
 std::ostream& operator<<(std::ostream& os, const Tensor& tensor);
 
 } // namespace ai
-} // namespace clmodel
+} // namespace asekioml
