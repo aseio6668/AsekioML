@@ -32,7 +32,7 @@ Production Ready:
 - Optimizers: SGD (with momentum), Adam, RMSprop, AdaGrad
 - Dataset Management: Data loading, preprocessing, and synthetic data generation
 
-### Advanced Features ⭐
+### Advanced Features 
 - SIMD Matrix Operations: 2-4x faster matrix multiplication with AVX2
 - Memory Optimization: Custom allocators and memory pools for efficiency
 - Modern Fluent API: Intuitive model building with method chaining
@@ -42,7 +42,7 @@ Production Ready:
 - Parallel Processing: OpenMP-accelerated operations
 - Multi-Vendor GPU Support: NVIDIA CUDA, AMD ROCm, and OpenCL acceleration
 
-### GPU Acceleration 🚀
+### GPU Acceleration 
 - NVIDIA GPUs: Full CUDA support with cuBLAS and cuDNN optimization
 - AMD GPUs: Native ROCm/HIP support with rocBLAS acceleration
 - Intel GPUs: OpenCL support for Intel Arc and integrated graphics
